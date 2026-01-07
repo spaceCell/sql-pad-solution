@@ -45,3 +45,15 @@ FROM payment
 GROUP BY year, mon
 ORDER BY year, mon;
 ```
+
+    Unique customers count by month
+
+```sql
+SELECT
+  EXTRACT(YEAR from rental_ts) AS year,
+  EXTRACT(MONTH from rental_ts) AS mon,
+  COUNT(DISTINCT customer_id) AS uu_cnt
+FROM rental
+GROUP BY year, mon
+ORDER BY year, mon;
+```
