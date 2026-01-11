@@ -42,8 +42,12 @@ SELECT
   EXTRACT(MONTH FROM payment_ts) AS mon,
   SUM(amount) AS rev
 FROM payment
-GROUP BY year, mon
-ORDER BY year, mon;
+GROUP BY
+    year,
+    mon
+ORDER BY
+    year,
+    mon;
 ```
 
     Unique customers count by month
@@ -54,6 +58,43 @@ SELECT
   EXTRACT(MONTH from rental_ts) AS mon,
   COUNT(DISTINCT customer_id) AS uu_cnt
 FROM rental
-GROUP BY year, mon
-ORDER BY year, mon;
+GROUP BY
+    year,
+    mon
+ORDER BY
+    year,
+    mon;
+```
+
+    Average customer spend by month
+
+```sql
+SELECT
+    EXTRACT(YEAR from payment_ts) AS year,
+    EXTRACT(MONTH from payment_ts) AS mon,
+    SUM(amount) / COUNT(DISTINCT customer_id) AS avg_spend
+FROM payment
+GROUP BY
+    year,
+    mon
+ORDER BY
+    year,
+    mon;
+```
+
+    Min and max spend
+
+```sql
+SELECT
+    MIN(total_spend) AS min_spend,
+    MAX(total_spend) AS max_spend
+FROM (
+         SELECT
+             customer_id,
+             SUM(amount) AS total_spend
+         FROM payment
+         WHERE payment_ts >= '2020-06-01'
+           AND payment_ts <  '2020-07-01'
+         GROUP BY customer_id
+     ) t;
 ```
