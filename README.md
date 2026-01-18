@@ -98,3 +98,12 @@ FROM (
          GROUP BY customer_id
      ) t;
 ```
+
+    Actors' last name
+```sql
+SELECT last_name,
+       COUNT(*) AS count
+FROM actor
+WHERE last_name IN ('DAVIS', 'BRODY', 'ALLEN', 'BERRY')
+GROUP BY last_name;
+```
